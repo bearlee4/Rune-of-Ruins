@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR;
 
+//아무래도 부모 설정에서 일어나는 UI 버그인거 같음. 예상이 맞다면 정보는 제대로 돌아가고 있을거라 생각.
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
 	Vector3 startPosition;
