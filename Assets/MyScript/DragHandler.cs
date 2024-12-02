@@ -11,13 +11,21 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	Vector3 startPosition;
     private Transform m_startParent;
     private int[] nodes;
-    public GameObject NodeManagers;
+    public GameObject Manager;
     NodeManager NodeManager;
-    public HandScript m_hand;
+    InventoryManager InventoryManager;
+    HandScript m_hand;
     Item Item;
     public int[] nodesize;
 
     private int backup_node;
+
+    public void Start()
+    {
+        Manager = GameObject.Find("Manager");   
+        m_hand = Manager.GetComponent<HandScript>();
+        InventoryManager = Manager.GetComponent<InventoryManager>();
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -59,6 +67,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                         int[] items = NodeManager.Instance.CalItemPosition(backup_node, m_hand.GrabItemObject.m_horizonCount, m_hand.GrabItemObject.m_verticalCount);
                         Node m_currentNode = NodeManager.Instance.GetNodeByIndex(backup_node);
                         NodeManager.Instance.SetItem(items, m_hand.GrabItemObject);
+                        m_hand.GrabItemObject.isActivate = true;
                         m_hand.GrabItemObject = null;
                         backup_node = -1;
                     }
@@ -167,6 +176,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 //m_hand.m_grapItemID = null;
                 NodeManager.Instance.SetItem(items, m_hand.GrabItemObject);
+                m_hand.GrabItemObject.isActivate = true;
                 m_hand.GrabItemObject.CenterNode = overIndex;
                 m_hand.GrabItemObject = null;
             }
@@ -178,11 +188,13 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 Node tempNode = NodeManager.Instance.CheckClash(items);
                 //템을 주움
-                tempNode.ItemObject.gameObject.transform.SetParent(m_startParent);
+                tempNode.ItemObject.gameObject.transform.SetParent(InventoryManager.InventoryWindow.transform);
+                tempNode.ItemObject.isActivate = false;
                 NodeManager.Instance.InitialNode(tempNode);
 
                 //치워뒀던거 내려둠
                 NodeManager.Instance.SetItem(items, temp);
+                temp.isActivate = true;
                 m_hand.GrabItemObject.CenterNode = overIndex;
                 m_hand.GrabItemObject = null;
             }
@@ -196,6 +208,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 else if (m_startParent == null && nodes != null)
                 {
                     NodeManager.Instance.SetItem(nodes, m_hand.GrabItemObject);
+                    m_hand.GrabItemObject.isActivate = true;
                     m_hand.GrabItemObject.CenterNode = overIndex;
                 }
 
@@ -214,14 +227,15 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         else
         {
-            if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Drop>() != null)
-            {
-                transform.SetParent(eventData.pointerEnter.transform);
-            }
-            else
-            {
-                transform.SetParent(m_startParent);
-            }
+            transform.SetParent(InventoryManager.InventoryWindow.transform);
+            //if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Drop>() != null)
+            //{
+            //    transform.SetParent(eventData.pointerEnter.transform);
+            //}
+            //else
+            //{
+            //    transform.SetParent(m_startParent);
+            //}
         }
 
         m_hand.GrabItemObject = null;

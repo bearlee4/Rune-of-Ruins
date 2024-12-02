@@ -103,6 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c47a50315be7f47ba2f4e6d99561a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
+  nodesize: 
 --- !u!114 &4064967374719479029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,8 +118,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_itemName: 2*1
-  m_itemDescription: 
-  m_itemIcon: {fileID: 0}
-  m_itemImage: {fileID: 0}
   m_horizonCount: 2
   m_verticalCount: 1
+  CenterNode: -1
+  type: 
+  damage: 0
+  total_damage: 0
+  buff: 
+  upgrade: 1
+  get_count: 1
+  isActivate: 0
