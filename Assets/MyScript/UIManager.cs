@@ -52,13 +52,12 @@ public class UIManager : MonoBehaviour
             if (ispause == false && Time.timeScale != 0)
             {
                 Open_Pause();
-                ispause = true;
             }
 
             else if (ispause == true && Time.timeScale == 0)
             {
                 Close_Pause();
-                ispause = false;
+
             }
 
             else if (ispause == false && Inventory.activeSelf == true)
@@ -85,11 +84,13 @@ public class UIManager : MonoBehaviour
     {
         Pause.SetActive(true);
         Time.timeScale = 0;
+        ispause = true;
     }
 
     public void Close_Pause()
     {
         Pause.SetActive(false);
         Time.timeScale = 1;
+        ispause = false;
     }
 }
