@@ -124,7 +124,32 @@ public class InventoryManager : MonoBehaviour
     public void UpGrade_Item(Item item)
     {
         item.upgrade ++;
-        item.total_damage += item.damage;
+        //item.total_damage += item.damage;
         item.get_count = 1;
+    }
+
+    public void Active_True(Item item)
+    {
+        for (int n = 0; n < Inventory_Item.Count; n++)
+        {
+            if (Inventory_Item[n].m_itemName == item.m_itemName)
+            {
+                Inventory_Item[n].isActivate = true;
+
+            }
+        }
+    }
+
+    public void Active_False(Item item)
+    {
+        for (int n = 0; n < Inventory_Item.Count; n++)
+        {
+            if (Inventory_Item[n].m_itemName == item.m_itemName)
+            {
+                Inventory_Item[n].isActivate = false;
+
+            }
+
+        }
     }
 }

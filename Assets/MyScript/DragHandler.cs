@@ -103,7 +103,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         m_startParent = transform.parent;
 
         this.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        this.transform.SetParent(this.transform.parent.root);
+        this.transform.SetParent(this.transform.parent.parent);
 	}
 
 	public void OnDrag(PointerEventData eventData)
@@ -176,7 +176,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             {
                 //m_hand.m_grapItemID = null;
                 NodeManager.Instance.SetItem(items, m_hand.GrabItemObject);
-                m_hand.GrabItemObject.isActivate = true;
+                InventoryManager.Active_True(m_hand.GrabItemObject);
                 m_hand.GrabItemObject.CenterNode = overIndex;
                 m_hand.GrabItemObject = null;
             }
@@ -189,12 +189,12 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 Node tempNode = NodeManager.Instance.CheckClash(items);
                 //템을 주움
                 tempNode.ItemObject.gameObject.transform.SetParent(InventoryManager.InventoryWindow.transform);
-                tempNode.ItemObject.isActivate = false;
+                InventoryManager.Active_False(tempNode.ItemObject);
                 NodeManager.Instance.InitialNode(tempNode);
 
                 //치워뒀던거 내려둠
                 NodeManager.Instance.SetItem(items, temp);
-                temp.isActivate = true;
+                InventoryManager.Active_True(temp);
                 m_hand.GrabItemObject.CenterNode = overIndex;
                 m_hand.GrabItemObject = null;
             }
@@ -214,28 +214,16 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 m_startParent = null;
                 nodes = null;
+                InventoryManager.Active_False(m_hand.GrabItemObject);
             }
 
-            //for (int i = 0; i < NodeManager.Instance.m_nodeArray.Length; i++)
-            //{
-            //    NodeManager.Instance.ChangeColor(NodeManager.Instance.GetNodeByIndex(i).Gameobject, NodeManager.Instance.defaultColor);
-            //}
-
-            //NodeManager.Instance.SetItem(nodesize, this.GetComponent<Item>());
-            //Debug.Log("드래그 끝날시 셋 아이템 작동");
         }
 
         else
         {
             transform.SetParent(InventoryManager.InventoryWindow.transform);
-            //if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<Drop>() != null)
-            //{
-            //    transform.SetParent(eventData.pointerEnter.transform);
-            //}
-            //else
-            //{
-            //    transform.SetParent(m_startParent);
-            //}
+            InventoryManager.Active_False(m_hand.GrabItemObject);
+
         }
 
         m_hand.GrabItemObject = null;

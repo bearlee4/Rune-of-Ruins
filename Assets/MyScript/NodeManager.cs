@@ -16,6 +16,8 @@ public class NodeManager : MonoBehaviour
     public Color cantdropColor = new Color(1, 0.44f, 0.44f, 0.392f);
 
 	InventoryManager InventoryManager;
+	public GameObject skill;
+	SkillManager SkillManager;
 
     public int m_totalIndex = 30;
 
@@ -38,6 +40,7 @@ public class NodeManager : MonoBehaviour
 
     private void Awake()
 	{
+		SkillManager = skill.GetComponent<SkillManager>();
 		InventoryManager = GetComponent<InventoryManager>();
         if (Instance == null)
         {
@@ -257,7 +260,8 @@ public class NodeManager : MonoBehaviour
 		item.gameObject.transform.localPosition = GetNodeByIndex(ints[0]).CenterPositon + m_nodeParents.transform.localPosition;
 
 		item.gameObject.transform.SetParent(itemParents.transform);
-		item.isActivate = true;
+
+		InventoryManager.Active_True(item);
 
     }
 
